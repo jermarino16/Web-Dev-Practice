@@ -1,0 +1,12 @@
+img {
+	width: 30%;
+	margin: 1.66%;
+	float: left;
+}
+p{
+	margin: 1.66%;
+	font-size: 23px;
+	font-weight: 800;
+	border-bottom: 2px solid black;
+	width: 30%;
+}
