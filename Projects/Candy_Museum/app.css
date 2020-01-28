@@ -1,0 +1,14 @@
+#navbar {
+	background-color: #f5d9d5;
+}
+
+#navbarSupportedContent .navbar-nav .nav-item .nav-link {
+	color: white;
+	padding-left: .5rem;
+	padding-right: .5rem;
+}
+
+.navbar-light .navbar-brand {
+    color: #EA1C2C;
+    font-size: 1.5rem;
+}
