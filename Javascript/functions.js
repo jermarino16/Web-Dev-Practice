@@ -1,7 +1,7 @@
-// function square(num){
-// 	// console.log(num*num);
-// 	return num*num;
-// }
+function square(num){
+	console.log(num*num);
+	// return num*num;
+}
 
 // var num = prompt("What do you want to square? ");
 
@@ -14,6 +14,10 @@ function factorial(num){
 	return 1
 }
 
-var num = prompt("What do you want to factorial? ");
+// var num = prompt("What do you want to factorial? ");
 
-console.log(factorial(num))
+// console.log(factorial(num));
+
+var array_of_nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+array_of_nums.forEach(square);
