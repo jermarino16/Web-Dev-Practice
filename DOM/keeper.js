@@ -48,5 +48,5 @@ resetButton.addEventListener("click", function(){
 // p2Button.addEventListener("click", updateScore(p2Score + 1, "player2"));
 
 numInput.addEventListener("change", function(){
-    winningScore.textContent = 100;
+    winningScore.textContent = numInput.value;
 });
