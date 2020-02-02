@@ -1,3 +1,9 @@
 body {
     background-color: purple;
 }
+#container{
+    background: gray;
+    margin: 0px auto;
+    width: 360px;
+    padding: 20px;
+}
