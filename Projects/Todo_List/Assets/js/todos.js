@@ -15,8 +15,9 @@ $("input[type ='text'").keypress(function(event){
     if (event.which === 13){
         var newTodoItem = $(this).val();
         $(this).val(""); //reset input to empty
+        var iconTrash = "<span><i class=\"fa fa-trash\"></i></span>"
 
-        $("ul").append("<li><span> X </span>" + newTodoItem + "</li>");
+        $("ul").append("<li>" +iconTrash + newTodoItem + "</li>");
     }
 });
 
