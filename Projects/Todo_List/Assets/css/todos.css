@@ -1,9 +1,12 @@
-body {
-    background-color: purple;
-}
 #container{
-    background: gray;
+    border: 2px solid black;
     margin: 0px auto;
     width: 360px;
     padding: 20px;
+}
+
+.done{
+    color: gray;
+    text-decoration: line-through;
+    
 }
