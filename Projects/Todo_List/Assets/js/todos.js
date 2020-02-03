@@ -10,3 +10,10 @@ $("li span").click(function(event){
     });
     event.stopPropagation();
 })
+
+$("input[type ='text'").keypress(function(event){
+    if (event.which === 13){
+        console.log($(this).val());
+        $("ul").append("<li>" + $(this).val() + "</li>");
+    }
+});
