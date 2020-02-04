@@ -1,5 +1,5 @@
 function echo(word, count){
-	for (i=0; i<count; i++){
+	for (var i=0; i<count; i++){
 		console.log(word)
 	}
 	
