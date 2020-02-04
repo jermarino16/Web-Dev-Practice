@@ -12,7 +12,13 @@ app.get("/bye", function(request, response){
 });
 // route for "/dog"
 app.get("/dog", function(request, response){
+	console.log("Someone requested /dog");
 	response.send("WOOF");
+});
+
+//route for "*"
+app.get("*", function(request, response){
+	response.send("You are a *");
 });
 
 // Make the express server listen to a specific port so it can see the response
