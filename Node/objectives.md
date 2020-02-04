@@ -2,7 +2,9 @@
 
 * What is node?
 * Why are we learning it?
-* It doesn't matter
+	* It's popular
+	* Javscript
+* It doesn't matter (long term)
 
 
 
