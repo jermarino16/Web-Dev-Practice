@@ -7,8 +7,13 @@ app.get("/", function(req, res){
 });
 // route for "/speak/:animal"
 app.get("/speak/:animal", function(req, res){
-	var animal = req.params.animal;
-	res.send("The " + animal + " says yo");
+	var sounds = {
+		pig: "oink",
+		cow: "woof",
+		cat: "get away from me"
+	}
+	var animal = req.params.animal.toLowerCase();
+	res.send("The " + animal + " says " + sounds[animal]);
 });
 // route for "/repeat/:word/:num"
 app.get("/repeat/:word/:num", function(req, res){
