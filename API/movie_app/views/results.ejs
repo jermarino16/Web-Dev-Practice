@@ -2,6 +2,15 @@
 	Results Page!
 </h1>
 
-<% data["Search"].forEach(function(movie){ %>
-	<li> <%= movie["Title"] %> </li>
-<% }) %>
+<% if (data["Search"] != null){ %>
+	<% data["Search"].forEach(function(movie){ %> 
+		<li> <%= movie["Title"] %> </li> 
+	<% }); %>
+<%  }else { %> 
+		<h1>
+			There are no movies with that term
+		</h1>
+	<% } %>
+
+
+<a href="/">Search Again!</a>

@@ -5,12 +5,16 @@ app.set("view engine", "ejs"); //do this so we dont have to call files "results.
 
 // route for "/"
 app.get("/", function(req, res){
-	res.send("welcome to the movies")
+	res.render("search");
 })
 
 //route of /results
 app.get("/results", function(req, res){
-	request("http://www.omdbapi.com/?s=california&apikey=thewdb", function(error, response, body){
+	var query = req.query.search; //string that is being sent from route page form
+	var apikey = "&apikey=thewdb";
+	var url = "http://www.omdbapi.com/?s=" + query + apikey;
+	
+	request(url, function(error, response, body){
 		if(!error && response.statusCode == 200){
 			var data = JSON.parse(body);
 			// res.send(data.Search[0].Title); //to see whats in the body
