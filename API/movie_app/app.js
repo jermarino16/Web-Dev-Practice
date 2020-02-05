@@ -12,10 +12,10 @@ app.get("/", function(req, res){
 app.get("/results", function(req, res){
 	request("http://www.omdbapi.com/?s=california&apikey=thewdb", function(error, response, body){
 		if(!error && response.statusCode == 200){
-			var results = JSON.parse(body);
-			// res.send(results.Search[0].Title);
-			console.log(results.Search[0].Title);
-			res.render("results");
+			var data = JSON.parse(body);
+			// res.send(data.Search[0].Title); //to see whats in the body
+			// console.log(data.Search[0].Title);
+			res.render("results", {data: data});
 		}
 	})
 })
