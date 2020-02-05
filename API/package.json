@@ -1,0 +1,16 @@
+{
+  "name": "apitesting",
+  "version": "1.0.0",
+  "description": "Practicing api calls",
+  "main": "app.js",
+  "dependencies": {
+    "request": "^2.88.0",
+    "require": "^2.4.20"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jeremy MArino",
+  "license": "ISC"
+}
