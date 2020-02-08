@@ -34,7 +34,7 @@ app.get("/", function(req, res){
 	res.render("landing");
 });
 
-//campgrounds router
+//INDEX Route ---- show all campgrounds 
 app.get("/campgrounds", function(req, res){
 	//get all campgrounds from DB
 	Campground.find({}, function(err, all_campgrounds){
@@ -46,23 +46,29 @@ app.get("/campgrounds", function(req, res){
 	})
 	
 });
-//make a new campground
+//CREATE Route - add new campground to database
 app.post("/campgrounds", function(req, res){
 	//get data from form and add to campgrounds array
 	var name = req.body.name;
 	var image = req.body.image;
 	var newCampground = {name: name, image: image};
-	Campground.create(newCampground, function(err, newCreated){
+	Campground.create(newCampground, function(err, newCreated){//using the object schema defined at top to access db
 		if(err){
 			console.log(err);
 		}else{
-			res.redirect("/campgrounds");
+			res.redirect("/campgrounds");//go back to campground page after create
 		}
 	});
 });
 
+//NEW Route - show form to create new campground
 app.get("/campgrounds/new", function(req, res){
 	res.render("new");
+});
+
+//SHOW Route
+app.get("/campgrounds/:id", function(req, res){
+	res.send("this will be the show page one day");
 });
 
 app.listen(process.env.PORT || 3000, process.env.ip, function(){
