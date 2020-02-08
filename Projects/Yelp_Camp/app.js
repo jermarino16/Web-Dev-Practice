@@ -1,24 +1,34 @@
-var express = require("express");
-var app = express();
-var bodyParser = require("body-parser");
+var express = require("express"),
+	app = express(),
+	bodyParser = require("body-parser"),
+	mongoose = require("mongoose");
+
+mongoose.set('useNewUrlParser', true);	//avoid deprecation
+mongoose.set('useUnifiedTopology', true); //avoid deprecation
+mongoose.connect("mongodb://localhost/yelp_camp");//connect / create to db
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs") // so i dont have to write ".ejs" for files
 
-var campgrounds = [
-	{
-		name: "Salmon Creek",
-		image: "https://images.unsplash.com/photo-1488790881751-9068aa742b9b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1489&q=80"
-	},		
-	{
-		name: "Jeremys Campsite",
-		image: "https://images.unsplash.com/photo-1511993807578-701168605ad3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1347&q=80"
-	},		
-	{
-		name: "Yosemite",
-		image: "https://images.unsplash.com/photo-1536002583490-9857862b246b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
+//Schema Setup
+var campgroundSchema = new mongoose.Schema({
+	name: String,
+	image: String
+});
+
+var Campground = mongoose.model("Campground", campgroundSchema);//create campground db
+
+Campground.create({
+	name: "Jeremys Campsite",
+	image: "https://images.unsplash.com/photo-1511993807578-701168605ad3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1347&q=80"
+}, function(err, campground){
+	if(err){
+		console.log(err);
+	}else{
+		console.log("Newly created campground: \n " + campground);
 	}
-]
+})
+
 	
 //route for "/"
 app.get("/", function(req, res){
@@ -27,7 +37,14 @@ app.get("/", function(req, res){
 
 //campgrounds router
 app.get("/campgrounds", function(req, res){
-	res.render("campgrounds", {campgrounds: campgrounds});
+	//get all campgrounds from DB
+	Campground.find({}, function(err, all_campgrounds){
+		if(err){
+			console.log("error occured");
+		}else{
+			res.render("campgrounds", {campgrounds: all_campgrounds});
+		}
+	})
 	
 });
 //make a new campground
