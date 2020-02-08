@@ -27,8 +27,7 @@ Campground.create({
 	}else{
 		console.log("Newly created campground: \n " + campground);
 	}
-})
-
+});
 	
 //route for "/"
 app.get("/", function(req, res){
@@ -53,9 +52,13 @@ app.post("/campgrounds", function(req, res){
 	var name = req.body.name;
 	var image = req.body.image;
 	var newCampground = {name: name, image: image};
-	campgrounds.push(newCampground);
-	//redirect back to campgrounds page
-	res.redirect("/campgrounds");
+	Campground.create(newCampground, function(err, newCreated){
+		if(err){
+			console.log(err);
+		}else{
+			res.redirect("/campgrounds");
+		}
+	});
 });
 
 app.get("/campgrounds/new", function(req, res){
