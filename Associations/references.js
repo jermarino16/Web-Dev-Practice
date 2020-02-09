@@ -16,10 +16,10 @@ var Post = mongoose.model("Post", postSchema);
 var userSchema = new mongoose.Schema({
 	email: String,
 	name: String,
-	posts: {
+	posts: [{
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "Post"
-	}
+	}]
 });
 var User = mongoose.model("User", userSchema);
 
@@ -29,8 +29,8 @@ var User = mongoose.model("User", userSchema);
 // });
 
 // Post.create({
-// 	title: "How to cook pt 3",
-// 	content: "asdgagasdd"
+// 	title: "How to cofasfasfasf",
+// 	content: "asdgasfasfasfasagasdd"
 // }, function(err, post){
 // 	if(err){
 // 		console.log(err);
@@ -51,23 +51,15 @@ var User = mongoose.model("User", userSchema);
 // 		});
 // 	}
 // });
-var bestPost = Post.create({
-	title: "Yo yo yo",
-	content: "Its me me me"
-});
 
-User.findOne({email: "Bob@bob.com"}, function(err, foundUser){//find a user
-	if (err){
+//retrieve the user and print out the posts by populating, exec starts running the function and we print out that user
+User.findOne({email: "Bob@bob.com"}).populate("posts").exec(function(err, user){
+	if(err){
 		console.log(err);
-	} else{
-		console.log(foundUser);
-		console.log(bestPost);
-		foundUser.posts.push({bestPost});
-
-		// foundUser.posts.push(bestPost);
+	}else{
+		console.log(user);
 	}
 });
-
 
 
 
