@@ -45,7 +45,7 @@ app.get("/campgrounds", function(req, res){
 		}else{
 			res.render("index", {campgrounds: all_campgrounds});
 		}
-	})
+	}) 
 	
 });
 //CREATE Route - add new campground to database
