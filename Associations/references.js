@@ -8,7 +8,7 @@ mongoose.connect("mongodb://localhost/blog_demo_2");
 var Post = require("./models/post.js");
 var User = require("./models/user.js");
 
-// User.create({ //create a user
+// User.create({ //create a usery
 // 	email: "Bob@bob.com",
 // 	name: "Bobby Bob"
 // });
