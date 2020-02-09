@@ -61,6 +61,15 @@ User.findOne({email: "Bob@bob.com"}).populate("posts").exec(function(err, user){
 	}
 });
 
+// //example of having post data ambiguous as ids
+// User.findOne({email: "Bob@bob.com"} ,function(err, user){
+// 	if(err){
+// 		console.log(err);
+// 	}else{
+// 		console.log(user);
+// 	}
+// });
+
 
 
 
