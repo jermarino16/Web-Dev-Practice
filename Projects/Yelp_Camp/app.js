@@ -1,7 +1,8 @@
 var express = require("express"),
 	app = express(),
 	bodyParser = require("body-parser"),
-	mongoose = require("mongoose");
+	mongoose = require("mongoose"),
+	Campground = require("./models/campgrounds.js");
 
 mongoose.set('useNewUrlParser', true);	//avoid deprecation
 mongoose.set('useUnifiedTopology', true); //avoid deprecation
@@ -10,14 +11,6 @@ mongoose.connect("mongodb://localhost/yelp_camp");//connect / create to db
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs") // so i dont have to write ".ejs" for files
 
-//Schema Setup
-var campgroundSchema = new mongoose.Schema({
-	name: String,
-	image: String,
-	description: String
-});
-
-var Campground = mongoose.model("Campground", campgroundSchema);//create campground db
 
 // Campground.create({
 // 	name: "Jeremys Campsite",
