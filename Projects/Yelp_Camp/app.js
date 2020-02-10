@@ -104,10 +104,12 @@ app.post("/campgrounds/:id/comments", function(req, res){
 			//if we find the campground save the data from the form
 			var comment_text = req.body.comment.text;
 			var comment_author = req.body.comment.author;
+			//i could also just use req.body.comment
 			//create a comment and associate to that campground
 			Comment.create({
 				text: comment_text,
 				author: comment_author
+				//i could also just use req.body.comment
 			}, function(err, comment){
 				if(err){
 					console.log(err);
@@ -117,8 +119,7 @@ app.post("/campgrounds/:id/comments", function(req, res){
 					campground.save();
 					console.log("created a new comment");
 					//redirect back to that specific campground page
-					var campground_id = campground._id;
-					res.redirect("/campgrounds/" + campground_id);
+					res.redirect("/campgrounds/" + campground._id);
 				}
 			})
 		}

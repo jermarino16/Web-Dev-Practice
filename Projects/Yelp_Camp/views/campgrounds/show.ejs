@@ -6,14 +6,15 @@
 	
 <p> <%= campground.description %> </p>
 
-
+<p>
+	<a class ="btn btn-success" href="/campgrounds/<%= campground._id %>/comments/new"> Add a comment!</a>
+</p>
 <% campground.comments.forEach(function(comment){ %>
 	<p>
 		<strong><%= comment.author %></strong> - <%= comment.text %>
 	</p>
 <% }); %>
 
-<a class ="btn btn-primary" href="/campgrounds/<%= campground._id %>/comments/new"> Add a comment!</a>
 
 
 <%- include("../partials/footer") %>
