@@ -117,7 +117,8 @@ app.post("/campgrounds/:id/comments", function(req, res){
 					campground.save();
 					console.log("created a new comment");
 					//redirect back to that specific campground page
-					res.redirect("/campgrounds");
+					var campground_id = campground._id;
+					res.redirect("/campgrounds/" + campground_id);
 				}
 			})
 		}
