@@ -3,6 +3,7 @@ var express 	= require("express"),
 	bodyParser 	= require("body-parser"),
 	mongoose 	= require("mongoose"),
 	Campground 	= require("./models/campgrounds.js"),
+	Comment = require("./models/comments"),
 	seedDB = require("./seeds");
 
 seedDB(); //remove all campgrounds from DB
@@ -81,8 +82,58 @@ app.get("/campgrounds/:id", function(req, res){
 //=========================
 // Comments Routes
 // ========================
+//New Route - show form to create comments for a specific campground
 app.get("/campgrounds/:id/comments/new", function(req, res){
-	res.render("comments/new")
+	//find campground by id
+	Campground.findById(req.params.id, function(err, campground){
+		if(err){
+			console.log(err);
+		} else{
+			res.render("comments/new", {campground: campground}); //show form to submit a comment for this campground
+		}
+	});
+});
+
+//CREATE Route - add new comments to specific campgrounds
+app.post("/campgrounds/:id/comments", function(req, res){
+	console.log("I was pinged");
+	//find specific campground by id
+	Campground.findById(req.params.id, function(err, campground){
+		if(err){
+			console.log(err);
+		} else{
+			//if we find the campground save the data from the form
+			var comment_text = req.body.comment.text;
+			var comment_author = req.body.comment.author;
+			//create a comment and associate to that campground
+			Comment.create({
+				text: comment_text,
+				author: comment_author
+			}, function(err, comment){
+				if(err){
+					console.log(err);
+				} else{
+					//push the comment to the campground that was found
+					campground.comments.push(comment);
+					campground.save();
+					console.log("created a new comment");
+
+				}
+			})
+		}
+	})
+	//save the data to the campground
+	var name = req.body.name;
+	var image = req.body.image;
+	var desc = req.body.description;
+	var newCampground = {name: name, image: image, description: desc};
+	Campground.create(newCampground, function(err, newCreated){//using the object schema defined at top to access db
+		if(err){
+			console.log(err);
+		}else{
+			res.redirect("/campgrounds");//go back to campground page after create
+		}
+	});
 });
 
 
