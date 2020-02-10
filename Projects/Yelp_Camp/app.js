@@ -96,7 +96,6 @@ app.get("/campgrounds/:id/comments/new", function(req, res){
 
 //CREATE Route - add new comments to specific campgrounds
 app.post("/campgrounds/:id/comments", function(req, res){
-	console.log("I was pinged");
 	//find specific campground by id
 	Campground.findById(req.params.id, function(err, campground){
 		if(err){
@@ -117,23 +116,12 @@ app.post("/campgrounds/:id/comments", function(req, res){
 					campground.comments.push(comment);
 					campground.save();
 					console.log("created a new comment");
-
+					//redirect back to that specific campground page
+					res.redirect("/campgrounds");
 				}
 			})
 		}
 	})
-	//save the data to the campground
-	var name = req.body.name;
-	var image = req.body.image;
-	var desc = req.body.description;
-	var newCampground = {name: name, image: image, description: desc};
-	Campground.create(newCampground, function(err, newCreated){//using the object schema defined at top to access db
-		if(err){
-			console.log(err);
-		}else{
-			res.redirect("/campgrounds");//go back to campground page after create
-		}
-	});
 });
 
 
