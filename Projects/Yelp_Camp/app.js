@@ -39,7 +39,7 @@ app.get("/campgrounds", function(req, res){
 		if(err){
 			console.log("error occured");
 		}else{
-			res.render("index", {campgrounds: all_campgrounds});
+			res.render("campgrounds/index", {campgrounds: all_campgrounds});
 		}
 	}) 
 	
@@ -62,7 +62,7 @@ app.post("/campgrounds", function(req, res){
 
 //NEW Route - show form to create new campground
 app.get("/campgrounds/new", function(req, res){
-	res.render("new");
+	res.render("campgrounds/new");
 });
 
 //SHOW Route
@@ -73,10 +73,21 @@ app.get("/campgrounds/:id", function(req, res){
 			console.log(err);
 		}else{
 			console.log(foundCampground);
-			res.render("show", {campground: foundCampground});
+			res.render("campgrounds/show", {campground: foundCampground});
 		}
 	});
 });
+
+//=========================
+// Comments Routes
+// ========================
+app.get("/campgrounds/:id/comments/new", function(req, res){
+	res.render("comments/new")
+});
+
+
+
+
 
 app.listen(process.env.PORT || 3000, process.env.ip, function(){
 	console.log("Yelp Server has started");
