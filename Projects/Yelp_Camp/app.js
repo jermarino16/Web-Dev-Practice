@@ -34,6 +34,12 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs") // so i dont have to write ".ejs" for file
 app.use(express.static(__dirname + "/public"));
 
+//define this to pass in currentUser variable to everything
+app.use(function(req, res, next){
+	res.locals.currentUser = req.user;
+	next();
+})
+
 // Campground.create({
 // 	name: "Jeremys Campsite",
 // 	image: "https://images.unsplash.com/photo-1511993807578-701168605ad3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1347&q=80",
@@ -58,7 +64,7 @@ app.get("/campgrounds", function(req, res){
 		if(err){
 			console.log("error occured");
 		}else{
-			res.render("campgrounds/index", {campgrounds: all_campgrounds});
+			res.render("campgrounds/index", {campgrounds: all_campgrounds, currentUser: req.user});
 		}
 	}) 
 	
