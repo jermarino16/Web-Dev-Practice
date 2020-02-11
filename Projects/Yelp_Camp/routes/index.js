@@ -16,6 +16,7 @@ router.get("/register", function(req, res){
 
 //handle sign-up logic 
 router.post("/register", function(req, res){
+	console.log(req.body.username);
 	var newUser = new User({username: req.body.username});
 	User.register(newUser, req.body.password, function(err, user){	//we get this from local mongoose
 		if(err){
@@ -25,7 +26,7 @@ router.post("/register", function(req, res){
 		else{
 			passport.authenticate("local")(req, res, function(){
 				res.redirect("/campgrounds");
-			})
+			});
 		}
 	});
 });
@@ -40,7 +41,7 @@ router.post("/login", passport.authenticate("local",
 	{
 		successRedirect: "/campgrounds",
 		failureRedirect: "/login"
-}), function(req, res){
+	}), function(req, res){
 });
 
 //add logout route

@@ -35,11 +35,6 @@ app.use(function(req, res, next){
 	next();
 })
 
-//setup routes from files
-app.use(indexRoutes);
-app.use(commentRoutes);
-app.use("/campgrounds", campgroundRoutes);
-
 //mongoose app set up
 mongoose.set('useNewUrlParser', true);	//avoid deprecation
 mongoose.set('useUnifiedTopology', true); //avoid deprecation
@@ -50,6 +45,10 @@ app.set("view engine", "ejs") // so i dont have to write ".ejs" for file
 app.use(express.static(__dirname + "/public"));
 
 
+//setup routes from files
+app.use(indexRoutes);
+app.use(commentRoutes);
+app.use(campgroundRoutes);
 
 app.listen(process.env.PORT || 3000, process.env.ip, function(){
 	console.log("Yelp Server has started");

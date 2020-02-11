@@ -8,6 +8,7 @@ var	Comment 		= require("../models/comments");
 // ========================
 //New Route - show form to create comments for a specific campground
 router.get("/campgrounds/:id/comments/new", isLoggedIn, function(req, res){
+	console.log(req.body);
 	//find campground by id
 	Campground.findById(req.params.id, function(err, campground){
 		if(err){
@@ -38,10 +39,13 @@ router.post("/campgrounds/:id/comments", isLoggedIn, function(req, res){
 				if(err){
 					console.log(err);
 				} else{
-					//push the comment to the campground that was found
+					//add username and id to comment
+					comment.author.id = req.user._id;
+					comment.author.username = req.user.username;
+					//save comment
+					comment.save();
 					campground.comments.push(comment);
 					campground.save();
-					console.log("created a new comment");
 					//redirect back to that specific campground page
 					res.redirect("/campgrounds/" + campground._id);
 				}

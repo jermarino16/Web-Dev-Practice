@@ -4,7 +4,7 @@ var	Campground 	= require("../models/campgrounds");
 var	Comment 	= require("../models/comments");
 
 //INDEX Route ---- show all campgrounds 
-router.get("/", function(req, res){
+router.get("/campgrounds", function(req, res){
 	//get all campgrounds from DB
 	Campground.find({}, function(err, all_campgrounds){
 		if(err){
@@ -16,7 +16,8 @@ router.get("/", function(req, res){
 	
 });
 //CREATE Route - add new campground to database
-router.post("/", function(req, res){
+router.post("/campgrounds", isLoggedIn, function(req, res){
+	console.log(req.body);
 	//get data from form and add to campgrounds array
 	var name = req.body.name;
 	var image = req.body.image;
@@ -32,21 +33,30 @@ router.post("/", function(req, res){
 });
 
 //NEW Route - show form to create new campground
-router.get("/new", function(req, res){
-	res.render("campgrounds/new");
+router.get("/campgrounds/new", function(req, res){
+	res.render("campgrounds/new", {currentUser: req.user});
 });
 
 //SHOW Route
-router.get("/:id", function(req, res){
+router.get("/campgrounds/:id", isLoggedIn, function(req, res){
 	// Campground.findById(req.params.id).populate("comments").exec(function(err, foundCampground){
 	Campground.findById(req.params.id).populate("comments").exec(function(err, foundCampground){
 		if(err){
 			console.log(err);
 		}else{
-			console.log(foundCampground);
-			res.render("campgrounds/show", {campground: foundCampground});
+			res.render("campgrounds/show", {campground: foundCampground, currentUser: req.user});
 		}
 	});
 });
+
+
+//create function to verify user is logged in
+function isLoggedIn(req, res, next){
+	if(req.isAuthenticated()){
+		return next();
+	}else{
+		res.redirect("/login");
+	}
+}
 
 module.exports = router;
