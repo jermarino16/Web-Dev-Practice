@@ -1,3 +1,11 @@
-body{
-	background: purple;
+.thumbnail img{
+	width: 100%;
+	height: auto;
 }
+
+#main_thumbnail {
+	padding: 0;
+	
+}
+
+
