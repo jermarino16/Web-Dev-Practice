@@ -22,23 +22,28 @@ router.post("/campgrounds", isLoggedIn, function(req, res){
 	var name = req.body.name;
 	var image = req.body.image;
 	var desc = req.body.description;
-	var newCampground = {name: name, image: image, description: desc};
+	var author = {
+		id: req.user._id,
+		username: req.user.username
+	};
+	var newCampground = {name: name, image: image, description: desc, author: author};
 	Campground.create(newCampground, function(err, newCreated){//using the object schema defined at top to access db
 		if(err){
 			console.log(err);
 		}else{
+			console.log(newCreated);
 			res.redirect("/campgrounds");//go back to campground page after create
 		}
 	});
 });
 
 //NEW Route - show form to create new campground
-router.get("/campgrounds/new", function(req, res){
+router.get("/campgrounds/new", isLoggedIn, function(req, res){
 	res.render("campgrounds/new", {currentUser: req.user});
 });
 
 //SHOW Route
-router.get("/campgrounds/:id", isLoggedIn, function(req, res){
+router.get("/campgrounds/:id", function(req, res){
 	// Campground.findById(req.params.id).populate("comments").exec(function(err, foundCampground){
 	Campground.findById(req.params.id).populate("comments").exec(function(err, foundCampground){
 		if(err){
