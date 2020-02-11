@@ -24,11 +24,14 @@
 					</h1>
 					
 					<p> <%= campground.description %> </p>
-					<p> 
-						<em>
-							Submitted by <%= campground.author.username %> 		
-						</em>
-					</p>
+					<% if (campground.author.username){ %>
+						<p> 
+							<em>
+								Submitted by <%= campground.author.username %> 		
+							</em>
+						</p>		
+					<% } %> 
+				
 				</div>
 			</div>
 			<div class="well">
