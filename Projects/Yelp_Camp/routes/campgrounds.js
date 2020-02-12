@@ -85,7 +85,7 @@ router.delete("/campgrounds/:id", function(req, res){
 			console.log(err);
 			res.redirect("/campgrounds");
 		}else{
-			console.log(deletedCampground);//we are deleting this from db
+			// console.log(deletedCampground);//we are deleting this from db
 			res.redirect("/campgrounds");
 		}
 	});
