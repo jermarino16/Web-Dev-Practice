@@ -17,7 +17,7 @@ router.get("/campgrounds", function(req, res){
 });
 //CREATE Route - add new campground to database
 router.post("/campgrounds", isLoggedIn, function(req, res){
-	console.log(req.body);
+	//console.log(req.body);
 	//get data from form and add to campgrounds array
 	var name = req.body.name;
 	var image = req.body.image;
@@ -31,7 +31,7 @@ router.post("/campgrounds", isLoggedIn, function(req, res){
 		if(err){
 			console.log(err);
 		}else{
-			console.log(newCreated);
+			//console.log(newCreated);
 			res.redirect("/campgrounds");//go back to campground page after create
 		}
 	});
