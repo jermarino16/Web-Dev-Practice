@@ -1,10 +1,5 @@
 <%- include("../partials/header") %>
 
-<% if(currentUser) { %>
-	<% console.log("This is the " + currentUser._id);  // look at what is being passed to this form%> 
-<% } %>
-
-	<% console.log("This is the " + campground.author.id );  // look at what is being passed to this form%> 
 <div class="container">
 	<div class="row">
 		<div class="col-md-3">
@@ -60,6 +55,8 @@
 						<p>
 							<%= comment.text %>
 						</p>
+						<a class="btn btn-xs btn-warning" 
+						   href="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>/edit">Edit comment</a>
 					</div>
 				</div>
 				<% }); %>

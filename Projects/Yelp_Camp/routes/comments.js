@@ -53,6 +53,28 @@ router.post("/campgrounds/:id/comments", isLoggedIn, function(req, res){
 		}
 	})
 });
+//Edit comment route
+router.get("/campgrounds/:id/comments/:comment_id/edit", function(req, res){
+	Comment.findById(req.params.comment_id, function(err, foundComment){
+		if(err){
+			console.log(err);
+		}else{
+			var campground_id = req.params.id;
+			res.render("comments/edit", {campground_id: campground_id, comment: foundComment});	
+		}
+	});
+});
+//Update Comment Route
+router.put("/campgrounds/:id/comments/:comment_id", function(req, res){
+	Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, foundComment){
+		if(err){
+			console.log(err);
+		}else{
+			//if found redirect back to specific campground with the comment
+			res.redirect("/campgrounds/" + req.params.id);
+		}
+	});
+});
 
 //create function to verify user is logged in
 function isLoggedIn(req, res, next){
