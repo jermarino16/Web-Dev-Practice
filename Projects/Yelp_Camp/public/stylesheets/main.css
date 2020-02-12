@@ -8,4 +8,10 @@
 	
 }
 
+h1 {
+	color: purple;
+}
 
+.jumbotron .h1, .jumbotron h1{
+	color: purple;
+}

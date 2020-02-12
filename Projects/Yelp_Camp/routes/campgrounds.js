@@ -53,6 +53,9 @@ router.get("/campgrounds/:id", function(req, res){
 		}
 	});
 });
+//Edit Campground Router
+
+//Update Campground Route
 
 
 //create function to verify user is logged in
