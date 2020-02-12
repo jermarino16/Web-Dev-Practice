@@ -4,6 +4,7 @@ var express 	= require("express"),
 	mongoose 	= require("mongoose"),
 	passport 	= require("passport"),
 	LocalStrategy = require("passport-local"),
+	MethodOverride = require("method-override"),
 	Campground 	= require("./models/campgrounds.js"),
 	Comment 	= require("./models/comments"),
 	User 		= require("./models/users"),
@@ -12,8 +13,6 @@ var express 	= require("express"),
 var commentRoutes = require("./routes/comments"),
 	campgroundRoutes = require("./routes/campgrounds"),
 	indexRoutes = require("./routes/index")
-
-seedDB(); //remove all campgrounds from DB
 
 //	==============================
 // 	PASSPORT CONFIGURATION
@@ -38,17 +37,21 @@ app.use(function(req, res, next){
 //mongoose app set up
 mongoose.set('useNewUrlParser', true);	//avoid deprecation
 mongoose.set('useUnifiedTopology', true); //avoid deprecation
+mongoose.set('useFindAndModify', false);//avoid deprecation
 mongoose.connect("mongodb://localhost/yelp_camp");//connect / create to db
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs") // so i dont have to write ".ejs" for file
 app.use(express.static(__dirname + "/public"));
+app.use(MethodOverride("_method"));
 
 
 //setup routes from files
 app.use(indexRoutes);
 app.use(commentRoutes);
 app.use(campgroundRoutes);
+
+seedDB(); //remove all campgrounds from DB
 
 app.listen(process.env.PORT || 3000, process.env.ip, function(){
 	console.log("Yelp Server has started");
