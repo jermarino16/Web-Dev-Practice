@@ -54,7 +54,7 @@ router.post("/campgrounds/:id/comments", isLoggedIn, function(req, res){
 	})
 });
 //Edit comment route
-router.get("/campgrounds/:id/comments/:comment_id/edit", verifyCommentOwnership, function(req, res){
+router.get("/campgrounds/:id/comments/:comment_id/edit", function(req, res){
 	Comment.findById(req.params.comment_id, function(err, foundComment){
 		if(err){
 			console.log(err);
@@ -65,12 +65,24 @@ router.get("/campgrounds/:id/comments/:comment_id/edit", verifyCommentOwnership,
 	});
 });
 //Update Comment Route
-router.put("/campgrounds/:id/comments/:comment_id", verifyCommentOwnership, function(req, res){
+router.put("/campgrounds/:id/comments/:comment_id", function(req, res){
 	Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, foundComment){
 		if(err){
 			console.log(err);
 		}else{
 			//if found redirect back to specific campground with the comment
+			res.redirect("/campgrounds/" + req.params.id);
+		}
+	});
+});
+// Delete Campground route
+router.delete("/campgrounds/:id/comments/:comment_id", function(req, res){
+	Comment.findByIdAndDelete(req.params.comment_id, function(err, deletedComment){
+		if(err){
+			console.log(err);
+			res.redirect("/campgrounds/" + req.params.id);
+		}else{
+			console.log(deletedComment);//we are deleting this from db
 			res.redirect("/campgrounds/" + req.params.id);
 		}
 	});
