@@ -2,6 +2,7 @@ var express 	= require("express"),
 	app 		= express(),
 	bodyParser 	= require("body-parser"),
 	mongoose 	= require("mongoose"),
+	flash 		= require("connect-flash"),
 	passport 	= require("passport"),
 	LocalStrategy = require("passport-local"),
 	MethodOverride = require("method-override"),
@@ -28,12 +29,6 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-//define this to pass in currentUser variable to everything
-app.use(function(req, res, next){
-	res.locals.currentUser = req.user;
-	next();
-})
-
 //mongoose app set up
 mongoose.set('useNewUrlParser', true);	//avoid deprecation
 mongoose.set('useUnifiedTopology', true); //avoid deprecation
@@ -44,7 +39,16 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs") // so i dont have to write ".ejs" for file
 app.use(express.static(__dirname + "/public"));
 app.use(MethodOverride("_method"));
+app.use(flash());
 
+
+//define this to pass in currentUser variable to everything
+app.use(function(req, res, next){
+	res.locals.currentUser = req.user;
+	res.locals.error = req.flash("error");
+	res.locals.success = req.flash("success");
+	next();
+})
 
 //setup routes from files
 app.use(indexRoutes);

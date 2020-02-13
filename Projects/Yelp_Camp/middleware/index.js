@@ -9,6 +9,7 @@ middlewareObj.isLoggedIn = function(req, res, next){
 	if(req.isAuthenticated()){
 		return next();
 	}else{
+		req.flash("error", "You need to be logged in to do that");
 		res.redirect("/login");
 	}
 }
@@ -24,11 +25,13 @@ middlewareObj.checkCampgroundOwnership = function(req, res, next){
 				//if its the id then let them do w/e
 				next();
 			}else{//if its not the id then send em back
+				req.flash("error", "You dont have permission to do that");
 				res.redirect("back");
 			}
 		});
 	}else{//if not logged in send the user back
-		res.redirect("back");
+		req.flash("error", "You need to be logged in to do that");
+		res.redirect("/login");
 	}
 }
 
@@ -44,12 +47,14 @@ middlewareObj.verifyCommentOwnership = function(req,res,next){
 				next();
 			}else{
 				//otherwise send them back
+				req.flash("error", "You dont have permission to do that");
 				res.redirect("back");
 			}
 		})
 	}else{
-		//send user back
-		res.redirect("back");
+		//send user back		
+		req.flash("error", "You need to be logged in to do that");
+		res.redirect("/login");
 	}
 }
 
