@@ -55,12 +55,16 @@
 						<p>
 							<%= comment.text %>
 						</p>
-						<a class="btn btn-xs btn-warning" 
-						   href="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>/edit">Edit comment</a>
-							<form class="delete-form" 
-								  action="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
-								<button class ="btn btn-xs btn-danger"> Delete Comment</button>
-							</form>	
+						<% if (currentUser) { %>
+							<% if (comment.author.id.equals(currentUser._id)){  //mongoose method to check if they are equal%>
+								<a class="btn btn-xs btn-warning" 
+								   href="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>/edit">Edit comment</a>
+									<form class="delete-form" 
+										  action="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+										<button class ="btn btn-xs btn-danger"> Delete Comment</button>
+									</form>	
+							<% } %> 
+						<% } %> 
 					</div>
 				</div>
 				<% }); %>

@@ -54,7 +54,7 @@ router.post("/campgrounds/:id/comments", isLoggedIn, function(req, res){
 	})
 });
 //Edit comment route
-router.get("/campgrounds/:id/comments/:comment_id/edit", function(req, res){
+router.get("/campgrounds/:id/comments/:comment_id/edit", verifyCommentOwnership, function(req, res){
 	Comment.findById(req.params.comment_id, function(err, foundComment){
 		if(err){
 			console.log(err);
@@ -65,7 +65,7 @@ router.get("/campgrounds/:id/comments/:comment_id/edit", function(req, res){
 	});
 });
 //Update Comment Route
-router.put("/campgrounds/:id/comments/:comment_id", function(req, res){
+router.put("/campgrounds/:id/comments/:comment_id", verifyCommentOwnership, function(req, res){
 	Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, foundComment){
 		if(err){
 			console.log(err);
@@ -76,13 +76,13 @@ router.put("/campgrounds/:id/comments/:comment_id", function(req, res){
 	});
 });
 // Delete Campground route
-router.delete("/campgrounds/:id/comments/:comment_id", function(req, res){
+router.delete("/campgrounds/:id/comments/:comment_id", verifyCommentOwnership, function(req, res){
 	Comment.findByIdAndDelete(req.params.comment_id, function(err, deletedComment){
 		if(err){
 			console.log(err);
 			res.redirect("/campgrounds/" + req.params.id);
 		}else{
-			console.log(deletedComment);//we are deleting this from db
+			// console.log(deletedComment);//we are deleting this from db
 			res.redirect("/campgrounds/" + req.params.id);
 		}
 	});
@@ -95,7 +95,7 @@ function verifyCommentOwnership(req,res,next){
 		//get comment and check for correct user id
 		Comment.findById(req.params.comment_id, function(err, foundComment){
 			//check if the comment matches the id of user
-			if(foundComment._id.equals(req.params.comment_id)){
+			if(foundComment.author.id.equals(req.user._id)){//req.user is stored thanks to passport module
 				//we can go to next if its correct owner
 				next();
 			}else{
