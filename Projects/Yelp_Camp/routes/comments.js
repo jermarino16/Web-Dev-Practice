@@ -54,7 +54,7 @@ router.post("/campgrounds/:id/comments", isLoggedIn, function(req, res){
 	})
 });
 //Edit comment route
-router.get("/campgrounds/:id/comments/:comment_id/edit", function(req, res){
+router.get("/campgrounds/:id/comments/:comment_id/edit", verifyCommentOwnership, function(req, res){
 	Comment.findById(req.params.comment_id, function(err, foundComment){
 		if(err){
 			console.log(err);
@@ -65,7 +65,7 @@ router.get("/campgrounds/:id/comments/:comment_id/edit", function(req, res){
 	});
 });
 //Update Comment Route
-router.put("/campgrounds/:id/comments/:comment_id", function(req, res){
+router.put("/campgrounds/:id/comments/:comment_id", verifyCommentOwnership, function(req, res){
 	Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, foundComment){
 		if(err){
 			console.log(err);
@@ -75,6 +75,27 @@ router.put("/campgrounds/:id/comments/:comment_id", function(req, res){
 		}
 	});
 });
+
+//create function to verify user has right to edit comment
+function verifyCommentOwnership(req,res,next){
+	//check if user is loggedin at all
+	if(req.isAuthenticated()){
+		//get comment and check for correct user id
+		Comment.findById(req.params.comment_id, function(err, foundComment){
+			//check if the comment matches the id of user
+			if(foundComment._id.equals(req.params.comment_id)){
+				//we can go to next if its correct owner
+				next();
+			}else{
+				//otherwise send them back
+				res.redirect("back");
+			}
+		})
+	}else{
+		//send user back
+		res.redirect("back");
+	}
+}
 
 //create function to verify user is logged in
 function isLoggedIn(req, res, next){
