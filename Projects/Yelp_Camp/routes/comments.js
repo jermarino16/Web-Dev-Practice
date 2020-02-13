@@ -2,12 +2,13 @@ var express 		= require("express");
 var router 			= express.Router();
 var	Campground 		= require("../models/campgrounds");
 var	Comment 		= require("../models/comments");
+var middleware = require("../middleware");//dont need to type /index.js because that is required by default when requiring a directory
 
 //=========================
 // Comments Routes
 // ========================
 //New Route - show form to create comments for a specific campground
-router.get("/campgrounds/:id/comments/new", isLoggedIn, function(req, res){
+router.get("/campgrounds/:id/comments/new", middleware.isLoggedIn, function(req, res){
 	console.log(req.body);
 	//find campground by id
 	Campground.findById(req.params.id, function(err, campground){
@@ -20,7 +21,7 @@ router.get("/campgrounds/:id/comments/new", isLoggedIn, function(req, res){
 });
 
 //CREATE Route - add new comments to specific campgrounds
-router.post("/campgrounds/:id/comments", isLoggedIn, function(req, res){
+router.post("/campgrounds/:id/comments", middleware.isLoggedIn, function(req, res){
 	//find specific campground by id
 	Campground.findById(req.params.id, function(err, campground){
 		if(err){
@@ -54,7 +55,7 @@ router.post("/campgrounds/:id/comments", isLoggedIn, function(req, res){
 	})
 });
 //Edit comment route
-router.get("/campgrounds/:id/comments/:comment_id/edit", verifyCommentOwnership, function(req, res){
+router.get("/campgrounds/:id/comments/:comment_id/edit", middleware.verifyCommentOwnership, function(req, res){
 	Comment.findById(req.params.comment_id, function(err, foundComment){
 		if(err){
 			console.log(err);
@@ -65,7 +66,7 @@ router.get("/campgrounds/:id/comments/:comment_id/edit", verifyCommentOwnership,
 	});
 });
 //Update Comment Route
-router.put("/campgrounds/:id/comments/:comment_id", verifyCommentOwnership, function(req, res){
+router.put("/campgrounds/:id/comments/:comment_id", middleware.verifyCommentOwnership, function(req, res){
 	Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, foundComment){
 		if(err){
 			console.log(err);
@@ -76,7 +77,7 @@ router.put("/campgrounds/:id/comments/:comment_id", verifyCommentOwnership, func
 	});
 });
 // Delete Campground route
-router.delete("/campgrounds/:id/comments/:comment_id", verifyCommentOwnership, function(req, res){
+router.delete("/campgrounds/:id/comments/:comment_id", middleware.verifyCommentOwnership, function(req, res){
 	Comment.findByIdAndDelete(req.params.comment_id, function(err, deletedComment){
 		if(err){
 			console.log(err);
@@ -88,35 +89,6 @@ router.delete("/campgrounds/:id/comments/:comment_id", verifyCommentOwnership, f
 	});
 });
 
-//create function to verify user has right to edit comment
-function verifyCommentOwnership(req,res,next){
-	//check if user is loggedin at all
-	if(req.isAuthenticated()){
-		//get comment and check for correct user id
-		Comment.findById(req.params.comment_id, function(err, foundComment){
-			//check if the comment matches the id of user
-			if(foundComment.author.id.equals(req.user._id)){//req.user is stored thanks to passport module
-				//we can go to next if its correct owner
-				next();
-			}else{
-				//otherwise send them back
-				res.redirect("back");
-			}
-		})
-	}else{
-		//send user back
-		res.redirect("back");
-	}
-}
-
-//create function to verify user is logged in
-function isLoggedIn(req, res, next){
-	if(req.isAuthenticated()){
-		return next();
-	}else{
-		res.redirect("/login");
-	}
-}
 
 
 module.exports = router;
